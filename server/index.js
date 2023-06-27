@@ -73,7 +73,3 @@ app.get("/getAnswer", async (req, res) => {
     console.log(err);
   }
 });
-
-app.listen(5174, () => {
-  console.log("Server running on port 5174");
-});
