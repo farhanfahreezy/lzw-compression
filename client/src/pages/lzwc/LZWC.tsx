@@ -23,7 +23,7 @@ const LZWC = () => {
     };
     try {
       const response = await axios.post(
-        "http://localhost:5174/sendQuestion",
+        "https://lzw-compression-pcluyvrgo-farhanfahreezy.vercel.app/sendQuestion",
         historyData
       );
       setResult(response.data.answer);

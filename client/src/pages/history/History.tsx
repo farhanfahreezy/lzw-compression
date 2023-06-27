@@ -18,7 +18,9 @@ const History = () => {
 
   async function fetchHistoryList() {
     axios
-      .get("http://localhost:5174/getHistory/")
+      .get(
+        "https://lzw-compression-pcluyvrgo-farhanfahreezy.vercel.app/getHistory/"
+      )
       .then((res) => {
         console.log("Getting History");
         setHistoryList(res.data);
