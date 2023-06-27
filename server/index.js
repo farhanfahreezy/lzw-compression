@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const History = require("./models/History");
 const compress = require("./algorithms/lzw-compression");
 const decompress = require("./algorithms/lzw-decompression");
+const port = process.env.PORT || 5174;
 
 app.use(express.json());
 app.use(cors());
@@ -72,4 +73,8 @@ app.get("/getAnswer", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+});
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
