@@ -3,6 +3,8 @@ const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
 const History = require("./models/History");
+const compress = require("./algorithms/lzw-compression");
+const decompress = require("./algorithms/lzw-decompression");
 
 app.use(express.json());
 app.use(cors());
@@ -19,23 +21,6 @@ mongoose
     console.log(err);
   });
 
-app.get("/test", async (req, res) => {
-  const history = {
-    isQuestion: false,
-    dialog: "Jawban Tiga",
-    timestamp: Date.now(),
-  };
-
-  try {
-    // const database = client.db("lzwhistory");
-    const histories = database.collection("histories");
-    const result = await histories.insertOne(history);
-    console.log(`A document was inserted with the _id: ${result.insertedId}`);
-  } finally {
-    await client.close();
-  }
-});
-
 app.get("/getHistory", async (req, res) => {
   try {
     const history = await History.find({}, { _id: 0 }).sort({ timestamp: 1 });
@@ -45,15 +30,44 @@ app.get("/getHistory", async (req, res) => {
   }
 });
 
-app.get("/addDummy", async (req, res) => {
-  const history = {
-    isQuestion: true,
-    dialog: "Pertanyaan Satu",
-    type: 0,
-    timestamp: Date.now(),
-  };
+app.post("/sendQuestion", async (req, res) => {
+  const question = req.body.question;
+  const type = req.body.type;
+
+  let answer;
+  if (type === 1) {
+    answer = compress(question);
+  } else {
+    answer = decompress(question);
+  }
+
+  const newHistory = new History({
+    question: question,
+    answer: answer,
+    type: type,
+  });
+
+  newHistory
+    .save()
+    .then((savedHistory) => {
+      const response = {
+        answer: savedHistory.answer,
+      };
+      res.status(201).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json({ error: "Failed to save history" });
+    });
+});
+
+app.get("/getAnswer", async (req, res) => {
+  const question = req.query.question;
+
   try {
-    const history = await History.find({}, { _id: 0 }).sort({ timestamp: 1 });
+    const history = await History.findOne(
+      { dialog: question },
+      { _id: 0, timestamp: 0, type: 0 }
+    );
     res.send(history);
   } catch (err) {
     console.log(err);

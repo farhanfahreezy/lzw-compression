@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const HistorySchema = new mongoose.Schema({
-  isQuestion: {
-    type: Boolean,
+  question: {
+    type: String,
     required: true,
   },
-  dialog: {
+  answer: {
     type: String,
     required: true,
   },

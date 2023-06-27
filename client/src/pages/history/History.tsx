@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import HistoryBubble from "./component/HistoryBubble";
 
 interface HistoryList {
-  isQuestion: boolean;
-  dialog: string;
-  timestamp: Date;
+  question: string;
+  answer: string;
   type: number;
+  timestamp: Date;
 }
 
 const History = () => {
@@ -35,8 +35,8 @@ const History = () => {
           return (
             <HistoryBubble
               key={history.timestamp.toString()}
-              isQuestion={history.isQuestion}
-              dialog={history.dialog}
+              question={history.question}
+              answer={history.answer}
               type={history.type}
             />
           );
