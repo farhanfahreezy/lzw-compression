@@ -11,7 +11,7 @@ const LZWC = () => {
   };
   return (
     <div className="flex flex-col w-full max-w-[800px] h-full p-5 items-center">
-      <div className="text-[48px]">Insert Your Text</div>
+      <div className="text-[48px]">LZW Compression</div>
       <div className="relative my-3 w-full h-fit">
         <textarea
           value={value}

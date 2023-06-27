@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import NavbarButton from "./NavbarButton";
 
 const Navbar = () => {
@@ -9,9 +9,6 @@ const Navbar = () => {
     { key: 1, text: "LZW Decompression", dest: "/lzwd" },
     { key: 2, text: "History", dest: "/history" },
   ];
-  useEffect(() => {
-    console.log(selected);
-  }, [selected]);
 
   return (
     <div className="flex flex-col md:flex-row gap-4">
